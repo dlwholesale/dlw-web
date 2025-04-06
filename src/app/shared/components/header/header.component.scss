@@ -1,0 +1,104 @@
+@use '@angular/material' as mat;
+
+.header-toolbar {
+  @include mat.elevation(3);
+  background: #ffffff !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+  height: 64px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+
+  .menu-button {
+    margin-right: 16px;
+    display: none; // Hidden by default on desktop
+
+    @media (max-width: 960px) {
+      display: block; // Show on mobile
+    }
+
+    mat-icon {
+      color: rgba(0, 0, 0, 0.87);
+    }
+  }
+
+  .logo {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-right: 24px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 32px;
+      width: 1px;
+      background: rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    margin-left: 16px;
+
+    a {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+      color: rgba(0, 0, 0, 0.87);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
+
+      &.active {
+        color: mat.m2-get-color-from-palette(mat.$m2-indigo-palette, 500);
+      }
+    }
+  }
+
+  .welcome-message {
+    margin: 0 16px;
+    font-size: 16px;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .mat-icon-button {
+    width: 40px;
+    height: 40px;
+    mat-icon {
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 960px) {
+    padding: 0 12px;
+    height: 56px;
+
+    .nav-links {
+      display: none; // Hide links on mobile
+    }
+
+    .logo {
+      font-size: 18px;
+      margin-right: 16px;
+
+      &::after {
+        right: -12px;
+        height: 28px;
+      }
+    }
+  }
+}

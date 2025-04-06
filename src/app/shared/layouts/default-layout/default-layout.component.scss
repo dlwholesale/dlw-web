@@ -1,0 +1,8 @@
+.content-container {
+  margin-top: 64px; // Match header height
+  padding: 16px;
+
+  @media (max-width: 960px) {
+    margin-top: 56px; // Match mobile header height
+  }
+}

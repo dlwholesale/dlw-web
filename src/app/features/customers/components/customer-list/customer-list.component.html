@@ -1,0 +1,64 @@
+<div class="customer-list">
+  <div class="filter-container">
+    <mat-form-field appearance="fill">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search customers" #input>
+    </mat-form-field>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name</th>
+      <td mat-cell *matCellDef="let customer"> {{ customer.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="linked">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Linked</th>
+      <td mat-cell *matCellDef="let customer">
+        <mat-slide-toggle [checked]="customer.linked" disabled>
+          {{ customer.linked ? 'Yes' : 'No' }}
+        </mat-slide-toggle>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="balance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Available Balance</th>
+      <td mat-cell *matCellDef="let customer">
+        {{ customer.linked ? (customer.balance | currency) : '--' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="updatedAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
+      <td mat-cell *matCellDef="let customer">
+        {{ customer.linked ? (customer.updatedAt | date:'short') : '--' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions</th>
+      <td mat-cell *matCellDef="let customer">
+        <button mat-icon-button color="primary" (click)="sendPlaidLink(customer)" *ngIf="!customer.linked"
+                matTooltip="Resend Plaid Link URL">
+          <mat-icon>send</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="queryBalance(customer)" *ngIf="customer.linked"
+                matTooltip="Query Balance">
+          <mat-icon>account_balance</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="confirmDelete(customer)" matTooltip="Remove Customer">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page" showFirstLastButtons></mat-paginator>
+</div>

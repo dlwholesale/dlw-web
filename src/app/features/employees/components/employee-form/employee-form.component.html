@@ -1,0 +1,66 @@
+<div class="employee-form-container">
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Employee Name" formControlName="name">
+      <mat-error *ngIf="employeeForm.get('name')?.hasError('required')">
+        Name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="employee@example.com" formControlName="email">
+      <mat-error *ngIf="employeeForm.get('email')?.hasError('required')">
+        Email is required.
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('email')?.hasError('email')">
+        Enter a valid email.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option value="employee">Employee</mat-option>
+        <mat-option value="admin">Admin</mat-option>
+      </mat-select>
+      <mat-error *ngIf="employeeForm.get('role')?.hasError('required')">
+        Role is required.
+      </mat-error>
+      <mat-error *ngIf="employeeForm.get('role')?.hasError('pattern')">
+        Role must be either 'admin' or 'employee'.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="password-section">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="Password" formControlName="password">
+        <mat-error *ngIf="employeeForm.get('password')?.hasError('required')">
+          Password is required.
+        </mat-error>
+        <mat-error *ngIf="employeeForm.get('password')?.hasError('minlength')">
+          Minimum length is 6 characters.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+        <mat-error *ngIf="employeeForm.get('confirmPassword')?.hasError('passwordMismatch')">
+          Passwords do not match.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit">
+        {{ isEditMode ? 'Update' : 'Register' }}
+      </button>
+      <button mat-raised-button color="warn" type="button" (click)="cancel()">
+        Cancel and Return to List
+      </button>
+    </div>
+  </form>
+</div>

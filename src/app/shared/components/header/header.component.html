@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <!-- Menu Button (For Responsive Mode) -->
+  <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="logo">DLW - Plaid</span>
+
+  <nav class="nav-links">
+    <a mat-button routerLink="/customers">Customers</a>
+    <a *ngIf="isAdmin" mat-button routerLink="/employees">Employees</a>
+  </nav>
+
+  <span class="spacer"></span>
+
+  <span class="welcome-message-">Hi, {{ userName }}</span>
+
+  <button mat-icon-button color="warn" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
