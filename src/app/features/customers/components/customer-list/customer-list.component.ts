@@ -65,7 +65,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
         this.spinner.hide();
       },
       error: (err) => {
-        this.toastr.error(`Failed to update customer! ${err.error.message}`, 'Error');
+        this.toastr.error(`Could not send email to customer! ${err.error.message}`, 'Error');
 
         this.spinner.hide();
       },
