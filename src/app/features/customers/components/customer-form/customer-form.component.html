@@ -21,6 +21,15 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- Business Name -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Business Name</mat-label>
+      <input matInput formControlName="businessName" placeholder="Enter Business Name">
+      <mat-error *ngIf="customerForm.get('businessName')?.hasError('invalidName')">
+        Name must only contain letters and spaces.
+      </mat-error>
+    </mat-form-field>
+
     <!-- Email -->
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Email</mat-label>

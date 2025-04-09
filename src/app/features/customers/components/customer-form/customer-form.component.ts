@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
@@ -25,7 +25,6 @@ export class CustomerFormComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly customerService: CustomerService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute,
     private readonly toastr: ToastrService,
     private readonly spinner: NgxSpinnerService,
   ) {
@@ -35,6 +34,7 @@ export class CustomerFormComponent implements OnInit {
     this.customerForm = this.fb.group({
       customerId: ['', Validators.required],
       name: ['', nameValidator()],
+      businessName: ['', nameValidator()],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [phoneNumberValidator()]],
       street: [''],
@@ -104,6 +104,7 @@ export class CustomerFormComponent implements OnInit {
         this.customerForm.patchValue({
           customerId: customer.customerId,
           name: customer.name,
+          businessName: customer.businessName,
           email: customer.email,
           phone: customer.phone,
           street: customer.street,
@@ -113,6 +114,8 @@ export class CustomerFormComponent implements OnInit {
           postalCode: customer.postalCode,
           country: customer.country,
         });
+
+        this.spinner.hide();
       },
       error: (err) => {
         this.toastr.error(`Failed to load customer data! ${err.error.message}`, 'Error');

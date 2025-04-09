@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,7 +18,7 @@ import { PlaidService } from '../../services/plaid.service';
   styleUrls: ['./customer-list.component.scss'],
 })
 export class CustomerListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'linked', 'balance', 'updatedAt', 'actions'];
+  displayedColumns: string[] = ['customerId', 'name', 'businessName', 'linked', 'balance', 'updatedAt', 'actions'];
   dataSource: MatTableDataSource<Customer> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -28,6 +29,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     private readonly plaidService: PlaidService,
     private readonly toastr: ToastrService,
     private readonly spinner: NgxSpinnerService,
+    private readonly router: Router,
   ) {
   }
 
@@ -126,6 +128,10 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
         this.spinner.hide();
       },
     });
+  }
+
+  edit(customer: Customer): void {
+    this.router.navigate(['/customers', customer.id]);
   }
 
   private deleteCustomer(customer: Customer) {
