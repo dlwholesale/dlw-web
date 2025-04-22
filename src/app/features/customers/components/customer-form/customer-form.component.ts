@@ -20,6 +20,19 @@ export class CustomerFormComponent implements OnInit {
   customerForm!: FormGroup;
   @Input() customerId?: number | null = null;
   isEditMode: boolean = false;
+  isLinked: boolean = false;
+
+  hints = {
+    name: '',
+    email: '',
+    phone: '',
+    street: '',
+    street2: '',
+    city: '',
+    region: '',
+    postalCode: '',
+    country: '',
+  };
 
   constructor(
     private readonly fb: FormBuilder,
@@ -114,6 +127,23 @@ export class CustomerFormComponent implements OnInit {
           postalCode: customer.postalCode,
           country: customer.country,
         });
+
+        if (customer.linked) {
+          this.isLinked = true;
+          this.customerService.getIdentity(id).subscribe(identity => {
+            this.hints = {
+              name: identity.name,
+              email: identity.email,
+              phone: identity.phone,
+              street: identity.street,
+              street2: '',
+              city: identity.city,
+              region: identity.region,
+              postalCode: identity.postalCode,
+              country: identity.country,
+            };
+          });
+        }
 
         this.spinner.hide();
       },

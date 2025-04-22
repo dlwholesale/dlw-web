@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Customer } from '../entities/customer.entity';
 import { CreateCustomerResponse } from '../interfaces/create-customer-response.interface';
+import { IdentityData } from '../interfaces/identity-data.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +38,9 @@ export class CustomerService {
 
   createAndSendLinkToken(id: number) {
     return this.http.get<Customer>(`${this.apiUrl}/${id}/link/token/create-and-send`);
+  }
+
+  getIdentity(id: number): Observable<IdentityData> {
+    return this.http.get<IdentityData>(`${this.apiUrl}/${id}/identity`);
   }
 }

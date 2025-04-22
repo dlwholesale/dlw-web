@@ -26,6 +26,10 @@
       font-weight: bold;
       padding: 0 4px;
     }
+
+    mat-form-field.full-width {
+      margin-bottom: 1rem;
+    }
   }
 
   .actions {
@@ -34,4 +38,8 @@
     gap: 12px;
     margin-top: 10px;
   }
+}
+
+.plaid-hint {
+  color: green !important;
 }
