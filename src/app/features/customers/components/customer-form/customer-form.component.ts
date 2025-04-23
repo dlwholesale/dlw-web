@@ -9,6 +9,7 @@ import { phoneNumberValidator } from '../../../../shared/validators/phone.valida
 import { Customer } from '../../entities/customer.entity';
 import { CreateCustomerResponse } from '../../interfaces/create-customer-response.interface';
 import { CustomerService } from '../../services/customer.service';
+import { PlaidService } from '../../services/plaid.service';
 
 @Component({
   selector: 'app-customer-form',
@@ -21,7 +22,6 @@ export class CustomerFormComponent implements OnInit {
   @Input() customerId?: number | null = null;
   isEditMode: boolean = false;
   isLinked: boolean = false;
-
   hints = {
     name: '',
     email: '',
@@ -33,10 +33,15 @@ export class CustomerFormComponent implements OnInit {
     postalCode: '',
     country: '',
   };
+  achNumber = {
+    account: '',
+    routing: '',
+  };
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly customerService: CustomerService,
+    private readonly plaidService: PlaidService,
     private readonly router: Router,
     private readonly toastr: ToastrService,
     private readonly spinner: NgxSpinnerService,
@@ -130,7 +135,7 @@ export class CustomerFormComponent implements OnInit {
 
         if (customer.linked) {
           this.isLinked = true;
-          this.customerService.getIdentity(id).subscribe(identity => {
+          this.plaidService.getIdentity(id).subscribe(identity => {
             this.hints = {
               name: identity.name,
               email: identity.email,
@@ -143,6 +148,13 @@ export class CustomerFormComponent implements OnInit {
               country: identity.country,
             };
           });
+
+          this.plaidService.getAuth(id).subscribe(auth => {
+            this.achNumber = {
+              account: auth.account,
+              routing: auth.routing,
+            }
+          })
         }
 
         this.spinner.hide();

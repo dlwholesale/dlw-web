@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCard, MatCardContent, MatCardHeader, MatCardModule, MatCardTitle } from "@angular/material/card";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -37,6 +38,7 @@ import { CustomerListPageComponent } from './pages/customer-list-page/customer-l
     MatSlideToggleModule,
     MatIcon,
     MatTooltipModule,
+    MatCardModule,
   ],
 })
 export class CustomersModule {
