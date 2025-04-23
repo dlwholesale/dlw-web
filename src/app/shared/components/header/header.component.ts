@@ -12,6 +12,7 @@ import { SupabaseService } from '../../../features/core/services/supabase.servic
 export class HeaderComponent {
   isAdmin: boolean = false;
   userName: string | null = null;
+  isSidenavOpen: boolean = false;
 
   constructor(private readonly supabaseService: SupabaseService, private readonly router: Router) {
     this.checkUserRole();
@@ -24,7 +25,11 @@ export class HeaderComponent {
   }
 
   toggleSidenav() {
-    console.log('Toggle Side Navigation (for mobile view)');
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  closeSidenav() {
+    this.isSidenavOpen = false;
   }
 
   private checkUserRole() {

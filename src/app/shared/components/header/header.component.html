@@ -1,6 +1,6 @@
 <mat-toolbar color="primary" class="header-toolbar">
-  <!-- Menu Button (For Responsive Mode) -->
-  <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
+
+  <button mat-icon-button class="menu-button" (click)="toggleSidenav()">
     <mat-icon>menu</mat-icon>
   </button>
 
@@ -13,9 +13,17 @@
 
   <span class="spacer"></span>
 
-  <span class="welcome-message-">Hi, {{ userName }}</span>
-
+  <span class="welcome-message">Hi, {{ userName }}</span>
   <button mat-icon-button color="warn" (click)="logout()">
     <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
+
+<mat-sidenav-container class="mobile-sidenav-container" *ngIf="isSidenavOpen">
+  <mat-sidenav #sidenav mode="over" opened>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/customers" (click)="closeSidenav()">Customers</a>
+      <a *ngIf="isAdmin" mat-list-item routerLink="/employees" (click)="closeSidenav()">Employees</a>
+    </mat-nav-list>
+  </mat-sidenav>
+</mat-sidenav-container>

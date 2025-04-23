@@ -7,6 +7,8 @@
   height: 64px;
   position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -69,6 +71,7 @@
   .welcome-message {
     margin: 0 16px;
     font-size: 16px;
+    white-space: nowrap;
   }
 
   .spacer {
@@ -78,6 +81,7 @@
   .mat-icon-button {
     width: 40px;
     height: 40px;
+
     mat-icon {
       font-size: 24px;
     }
@@ -98,6 +102,43 @@
       &::after {
         right: -12px;
         height: 28px;
+      }
+    }
+
+    .welcome-message {
+      display: none;
+    }
+  }
+}
+
+.mobile-sidenav-container {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 64px);
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.4);
+
+  @media (max-width: 960px) {
+    top: 56px;
+    height: calc(100% - 56px);
+  }
+
+  mat-sidenav {
+    width: 240px;
+    padding: 16px 0;
+
+    mat-nav-list {
+      a {
+        font-weight: 500;
+        font-size: 16px;
+        padding: 12px 24px;
+        color: rgba(0, 0, 0, 0.87);
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.04);
+        }
       }
     }
   }
