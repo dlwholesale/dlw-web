@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -18,8 +19,12 @@ import { PlaidService } from '../../services/plaid.service';
   styleUrls: ['./customer-list.component.scss'],
 })
 export class CustomerListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['customerId', 'name', 'businessName', 'linked', 'balance', 'updatedAt', 'actions'];
+  private readonly mobileColumns: string[] = ['name', 'balance', 'actions'];
+  private readonly desktopColumns: string[] = ['customerId', 'name', 'businessName', 'linked', 'balance', 'updatedAt', 'actions'];
+  displayedColumns: string[] = this.desktopColumns;
   dataSource: MatTableDataSource<Customer> = new MatTableDataSource();
+  isMobile = false;
+  menuCustomer: Customer | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -30,11 +35,19 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     private readonly toastr: ToastrService,
     private readonly spinner: NgxSpinnerService,
     private readonly router: Router,
+    private readonly breakpointObserver: BreakpointObserver,
   ) {
   }
 
   ngOnInit(): void {
     this.loadCustomers();
+
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe(({ matches }) => {
+        this.isMobile = matches;
+        this.displayedColumns = matches ? this.mobileColumns : this.desktopColumns;
+      });
   }
 
   ngAfterViewInit(): void {

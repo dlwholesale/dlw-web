@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -14,19 +15,31 @@ import { EmployeeService } from '../../services/employee.service';
   styleUrls: ['./employee-list.component.scss'],
 })
 export class EmployeeListComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'email', 'role', 'actions'];
   dataSource = new MatTableDataSource<Employee>([]);
+  isMobile = false;
+  private readonly mobileColumns: string[] = ['name', 'actions'];
+  private readonly desktopColumns: string[] = ['name', 'email', 'role', 'actions'];
+  displayedColumns: string[] = this.desktopColumns;
+  menuEmployee: Employee | null = null;
 
   constructor(
     private readonly employeeService: EmployeeService,
     private readonly router: Router,
     private readonly toastr: ToastrService,
     private readonly spinner: NgxSpinnerService,
+    private readonly breakpointObserver: BreakpointObserver,
   ) {
   }
 
   ngOnInit(): void {
     this.loadEmployees();
+
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe(({ matches }) => {
+        this.isMobile = matches;
+        this.displayedColumns = matches ? this.mobileColumns : this.desktopColumns;
+      });
   }
 
   editEmployee(employee: Employee): void {

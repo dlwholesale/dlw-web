@@ -18,3 +18,13 @@
     gap: 8px;
   }
 }
+
+@media (max-width: 600px) {
+  .header .actions .btn-text {
+    display: none;
+  }
+
+  .mat-icon {
+    margin: 0 !important;
+  }
+}

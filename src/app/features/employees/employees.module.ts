@@ -6,6 +6,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
@@ -38,6 +39,8 @@ import { EmployeeListPageComponent } from './pages/employee-list-page/employee-l
     MatSelectModule,
     MatOptionModule,
     MatTooltip,
+    MatMenuTrigger,
+    MatMenuModule,
   ],
 })
 export class EmployeesModule {

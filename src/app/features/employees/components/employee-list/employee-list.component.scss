@@ -22,3 +22,14 @@
     margin: 0 4px;
   }
 }
+
+.mat-table {
+  min-width: 300px;
+}
+
+/* Ensure mobile menu button is visible */
+@media (max-width: 600px) {
+  th.mat-header-cell, td.mat-cell {
+    padding: 8px 16px;
+  }
+}

@@ -7,7 +7,7 @@
   </div>
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-    <ng-container matColumnDef="customerId">
+    <ng-container matColumnDef="customerId" *ngIf="!isMobile">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
       <td mat-cell *matCellDef="let customer"> {{ customer.customerId }}</td>
     </ng-container>
@@ -17,12 +17,12 @@
       <td mat-cell *matCellDef="let customer"> {{ customer.name }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="businessName">
+    <ng-container matColumnDef="businessName" *ngIf="!isMobile">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Business Name</th>
       <td mat-cell *matCellDef="let customer"> {{ customer.businessName }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="linked">
+    <ng-container matColumnDef="linked" *ngIf="!isMobile">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Linked</th>
       <td mat-cell *matCellDef="let customer">
         <mat-slide-toggle [checked]="customer.linked" disabled>
@@ -38,7 +38,7 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="updatedAt">
+    <ng-container matColumnDef="updatedAt" *ngIf="!isMobile">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
       <td mat-cell *matCellDef="let customer">
         {{ customer.linked ? (customer.updatedAt | date:'short') : '--' }}
@@ -48,20 +48,33 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions</th>
       <td mat-cell *matCellDef="let customer">
-        <button mat-icon-button color="primary" (click)="edit(customer)" matTooltip="Edit Customer">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" (click)="sendPlaidLink(customer)" *ngIf="!customer.linked"
-                matTooltip="Resend Plaid Link URL">
-          <mat-icon>send</mat-icon>
-        </button>
-        <button mat-icon-button color="accent" (click)="queryBalance(customer)" *ngIf="customer.linked"
-                matTooltip="Query Balance">
-          <mat-icon>account_balance</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="confirmDelete(customer)" matTooltip="Remove Customer">
-          <mat-icon>delete</mat-icon>
-        </button>
+        <!-- Desktop: inline buttons -->
+        <ng-container *ngIf="!isMobile; else mobileMenu">
+          <button mat-icon-button color="primary" (click)="edit(customer)" matTooltip="Edit Customer">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="sendPlaidLink(customer)" *ngIf="!customer.linked"
+                  matTooltip="Resend Plaid Link URL">
+            <mat-icon>send</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="queryBalance(customer)" *ngIf="customer.linked"
+                  matTooltip="Query Balance">
+            <mat-icon>account_balance</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="confirmDelete(customer)" matTooltip="Remove Customer">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-container>
+
+        <!-- Mobile: three-dot menu -->
+        <ng-template #mobileMenu>
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="actionMenu"
+            (click)="menuCustomer = customer; $event.stopPropagation()">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </ng-template>
       </td>
     </ng-container>
 
@@ -69,9 +82,30 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+      <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+        No data matching the filter "{{ input.value }}"
+      </td>
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" aria-label="Select page" showFirstLastButtons></mat-paginator>
+  <mat-menu #actionMenu="matMenu" (closed)="menuCustomer = null">
+    <button mat-menu-item (click)="edit(menuCustomer)" *ngIf="menuCustomer">
+      <mat-icon>edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="sendPlaidLink(menuCustomer)" *ngIf="menuCustomer && !menuCustomer.linked">
+      <mat-icon>send</mat-icon>
+      <span>Resend Plaid Link</span>
+    </button>
+    <button mat-menu-item (click)="queryBalance(menuCustomer)" *ngIf="menuCustomer && menuCustomer.linked">
+      <mat-icon>account_balance</mat-icon>
+      <span>Query Balance</span>
+    </button>
+    <button mat-menu-item (click)="confirmDelete(menuCustomer)" *ngIf="menuCustomer">
+      <mat-icon>delete</mat-icon>
+      <span>Remove</span>
+    </button>
+  </mat-menu>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCard, MatCardContent, MatCardHeader, MatCardModule, MatCardTitle } from "@angular/material/card";
+import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from "@angular/material/menu";
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
@@ -39,6 +40,7 @@ import { CustomerListPageComponent } from './pages/customer-list-page/customer-l
     MatIcon,
     MatTooltipModule,
     MatCardModule,
+    MatMenuModule,
   ],
 })
 export class CustomersModule {

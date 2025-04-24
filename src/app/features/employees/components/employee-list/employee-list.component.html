@@ -6,29 +6,48 @@
       <td mat-cell *matCellDef="let employee"> {{ employee.user_metadata.name }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="email">
+    <ng-container matColumnDef="email" *ngIf="!isMobile">
       <th mat-header-cell *matHeaderCellDef> Email</th>
       <td mat-cell *matCellDef="let employee"> {{ employee.email }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="role">
+    <ng-container matColumnDef="role" *ngIf="!isMobile">
       <th mat-header-cell *matHeaderCellDef> Role</th>
       <td mat-cell *matCellDef="let employee"> {{ employee.user_metadata.role ?? 'admin' | titlecase }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions</th>
-      <td mat-cell *matCellDef="let employee">
-        <button mat-icon-button color="primary" (click)="editEmployee(employee)" matTooltip="Edit Employee">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="confirmDelete(employee)" matTooltip="Remove Employee">
-          <mat-icon>delete</mat-icon>
-        </button>
+      <td mat-cell *matCellDef="let e">
+        <!-- Desktop inline buttons -->
+        <ng-container *ngIf="!isMobile; else mobileMenu">
+          <button mat-icon-button color="primary" (click)="editEmployee(e)" matTooltip="Edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="confirmDelete(e)" matTooltip="Delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </ng-container>
+        <!-- Mobile three-dot menu -->
+        <ng-template #mobileMenu>
+          <button mat-icon-button [matMenuTriggerFor]="actionMenu" (click)="menuEmployee = e; $event.stopPropagation()">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </ng-template>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <mat-menu #actionMenu="matMenu" (closed)="menuEmployee = null">
+    <button mat-menu-item (click)="editEmployee(menuEmployee)" *ngIf="menuEmployee">
+      <mat-icon>edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="confirmDelete(menuEmployee)" *ngIf="menuEmployee">
+      <mat-icon>delete</mat-icon>
+      <span>Delete</span>
+    </button>
+  </mat-menu>
 </div>

@@ -3,13 +3,15 @@
     <h1>Customers</h1>
     <div class="actions">
       <button mat-raised-button color="primary" (click)="createCustomer()">
-        Register Customer
+        <mat-icon>person_add</mat-icon>
+        <span class="btn-text">Register Customer</span>
       </button>
       <button mat-raised-button color="primary" (click)="updateAllBalances()">
-        Update All Customers' Balance
+        <mat-icon>sync</mat-icon>
+        <span class="btn-text">Update All Customers' Balance</span>
       </button>
     </div>
   </div>
 
-  <app-customer-list/>
+  <app-customer-list></app-customer-list>
 </div>
