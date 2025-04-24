@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
-import { nameValidator } from '../../../../shared/validators/name.validator';
 import { phoneNumberValidator } from '../../../../shared/validators/phone.validator';
 import { Customer } from '../../entities/customer.entity';
 import { CreateCustomerResponse } from '../../interfaces/create-customer-response.interface';
@@ -51,8 +50,8 @@ export class CustomerFormComponent implements OnInit {
   ngOnInit(): void {
     this.customerForm = this.fb.group({
       customerId: ['', Validators.required],
-      name: ['', nameValidator()],
-      businessName: ['', nameValidator()],
+      name: [''],
+      businessName: [''],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [phoneNumberValidator()]],
       street: [''],
