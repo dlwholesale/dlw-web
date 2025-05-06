@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { phoneNumberValidator } from '../../../../shared/validators/phone.validator';
 import { Customer } from '../../entities/customer.entity';
+import { AchInfo } from '../../interfaces/ach-info.interface';
 import { CreateCustomerResponse } from '../../interfaces/create-customer-response.interface';
 import { CustomerService } from '../../services/customer.service';
 import { PlaidService } from '../../services/plaid.service';
@@ -32,10 +33,7 @@ export class CustomerFormComponent implements OnInit {
     postalCode: '',
     country: '',
   };
-  achNumber = {
-    account: '',
-    routing: '',
-  };
+  achNumbers: AchInfo[] = [];
 
   constructor(
     private readonly fb: FormBuilder,
@@ -149,11 +147,12 @@ export class CustomerFormComponent implements OnInit {
           });
 
           this.plaidService.getAuth(id).subscribe(auth => {
-            this.achNumber = {
-              account: auth.account,
-              routing: auth.routing,
+            if (Array.isArray(auth)) {
+              this.achNumbers = auth;
+            } else {
+              this.toastr.error(`Failed to load bank info`, 'Error');
             }
-          })
+          });
         }
 
         this.spinner.hide();

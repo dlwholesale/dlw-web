@@ -1,11 +1,15 @@
 <div class="customer-form-container">
-  <mat-card *ngIf="isLinked" class="ach-info-card mb-4">
+  <mat-card *ngIf="isLinked && achNumbers.length" class="ach-info-card mb-4">
     <mat-card-header>
       <mat-card-title>Bank Information</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p><strong>Account Number:</strong> {{ achNumber.account }}</p>
-      <p><strong>Routing Number:</strong> {{ achNumber.routing }}</p>
+      <ul class="ach-list">
+        <li *ngFor="let ach of achNumbers">
+          <p><strong>Account:</strong> {{ ach.account }}</p>
+          <p><strong>Routing:</strong> {{ ach.routing }}</p>
+        </li>
+      </ul>
     </mat-card-content>
   </mat-card>
 

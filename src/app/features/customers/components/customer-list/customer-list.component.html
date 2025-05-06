@@ -34,7 +34,14 @@
     <ng-container matColumnDef="balance">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Available Balance</th>
       <td mat-cell *matCellDef="let customer">
-        {{ customer.linked ? (customer.balance | currency) : '--' }}
+        <ng-container *ngIf="customer.linked; else noBalances">
+          <ul class="balance-list">
+            <li *ngFor="let b of customer.balances">
+              {{ b.accountName }}: {{ b.availableBalance | currency }}
+            </li>
+          </ul>
+        </ng-container>
+        <ng-template #noBalances>--</ng-template>
       </td>
     </ng-container>
 
