@@ -27,6 +27,12 @@ export class SupabaseService {
     return data.session;
   }
 
+  async isAdmin() {
+    const { data } = await this.supabase.auth.getSession();
+
+    return (data.session?.user?.user_metadata?.['role'] ?? 'admin') === 'admin';
+  }
+
   logout() {
     return this.supabase.auth.signOut();
   }

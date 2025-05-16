@@ -68,7 +68,8 @@
                   matTooltip="Query Balance">
             <mat-icon>account_balance</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="confirmDelete(customer)" matTooltip="Remove Customer">
+          <button (click)="confirmDelete(customer)" *ngIf="isAdmin" color="warn" mat-icon-button
+                  matTooltip="Remove Customer">
             <mat-icon>delete</mat-icon>
           </button>
         </ng-container>
@@ -108,7 +109,7 @@
       <mat-icon>account_balance</mat-icon>
       <span>Query Balance</span>
     </button>
-    <button mat-menu-item (click)="confirmDelete(menuCustomer)" *ngIf="menuCustomer">
+    <button mat-menu-item (click)="confirmDelete(menuCustomer)" *ngIf="isAdmin && menuCustomer">
       <mat-icon>delete</mat-icon>
       <span>Remove</span>
     </button>

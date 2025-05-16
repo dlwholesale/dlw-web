@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { SupabaseService } from '../../../core/services/supabase.service';
 
 import { Customer } from '../../entities/customer.entity';
 import { BalanceData } from '../../interfaces/balance-data.interface';
@@ -24,6 +25,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = this.desktopColumns;
   dataSource: MatTableDataSource<Customer> = new MatTableDataSource();
   isMobile = false;
+  isAdmin: boolean = false;
   menuCustomer: Customer | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -36,10 +38,13 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     private readonly spinner: NgxSpinnerService,
     private readonly router: Router,
     private readonly breakpointObserver: BreakpointObserver,
+    private readonly supabaseService: SupabaseService,
   ) {
   }
 
   ngOnInit(): void {
+    this.supabaseService.isAdmin().then(isAdmin => this.isAdmin = isAdmin);
+
     this.loadCustomers();
 
     this.breakpointObserver
