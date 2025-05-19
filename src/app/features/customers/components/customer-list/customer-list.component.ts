@@ -58,6 +58,11 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (item: Customer, property: string): string | number => {
+      const value = (item as any)[property];
+      return typeof value === 'string' ? value.toLowerCase() : value;
+    };
   }
 
   applyFilter(event: Event): void {
