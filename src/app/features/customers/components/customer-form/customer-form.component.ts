@@ -146,11 +146,16 @@ export class CustomerFormComponent implements OnInit {
             };
           });
 
-          this.plaidService.getAuth(id).subscribe(auth => {
-            if (Array.isArray(auth)) {
-              this.achNumbers = auth;
-            } else {
-              this.toastr.error(`Failed to load bank info`, 'Error');
+          this.plaidService.getAuth(id).subscribe({
+            next: (auth) => {
+              if (Array.isArray(auth)) {
+                this.achNumbers = auth;
+              } else {
+                this.toastr.error('Failed to load bank info', 'Error');
+              }
+            },
+            error: (err) => {
+              this.toastr.error(`Failed to load bank info: ${err.message}`, 'Error');
             }
           });
         }

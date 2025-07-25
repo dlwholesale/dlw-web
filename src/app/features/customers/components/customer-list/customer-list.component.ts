@@ -116,7 +116,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
         this.spinner.hide();
       },
       error: (err) => {
-        this.toastr.error(`Failed to fetch customer's balance! ${err.error.message}`, 'Error');
+        this.toastr.error(`Failed to fetch customer's balance! ${err.error.error}`, 'Error');
 
         this.spinner.hide();
       },

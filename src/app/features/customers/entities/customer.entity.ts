@@ -16,4 +16,5 @@ export interface Customer {
   balance: number;
   updatedAt: Date;
   linkToken?: string | null;
+  updateMode: boolean;
 }

@@ -60,7 +60,8 @@
           <button mat-icon-button color="primary" (click)="edit(customer)" matTooltip="Edit Customer">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="primary" (click)="sendPlaidLink(customer)" *ngIf="!customer.linked"
+          <button mat-icon-button color="primary" (click)="sendPlaidLink(customer)"
+                  *ngIf="!customer.linked && !customer.updateMode"
                   matTooltip="Resend Plaid Link URL">
             <mat-icon>send</mat-icon>
           </button>
@@ -101,7 +102,8 @@
       <mat-icon>edit</mat-icon>
       <span>Edit</span>
     </button>
-    <button mat-menu-item (click)="sendPlaidLink(menuCustomer)" *ngIf="menuCustomer && !menuCustomer.linked">
+    <button mat-menu-item (click)="sendPlaidLink(menuCustomer)"
+            *ngIf="menuCustomer && !menuCustomer.linked && !menuCustomer.updateMode">
       <mat-icon>send</mat-icon>
       <span>Resend Plaid Link</span>
     </button>
